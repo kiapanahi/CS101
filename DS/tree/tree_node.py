@@ -1,3 +1,6 @@
+from .constants import HEAP_TYPE
+
+
 class AbstractTreeNode(object):
     """
     the abstraction of a tree node containing a generic value and 
@@ -40,3 +43,34 @@ class AbstractTreeNode(object):
                 self.right_child.value >= self.value))
 
         return is_min_heap
+
+    def heapify(self, heap_type: HEAP_TYPE = HEAP_TYPE.MAX):
+        if heap_type is HEAP_TYPE.MAX:
+            self._max_heapify()
+        elif heap_type is HEAP_TYPE.MIN:
+            self._min_heapify()
+        pass
+
+    def _max_heapify(self):
+        if self.has_left_child():
+            if self.left_child.value > self.value:
+                self.value, self.left_child.value = self.left_child.value, self.value
+
+        if self.has_right_child():
+            if self.right_child.value > self.value:
+                self.value, self.right_child.value = self.right_child.value, self.value
+
+    def _min_heapify(self):
+        if self.has_left_child():
+            if self.left_child.value < self.value:
+                self.value, self.left_child.value = self.left_child.value, self.value
+
+        if self.has_right_child():
+            if self.right_child.value < self.value:
+                self.value, self.right_child.value = self.right_child.value, self.value
+
+    def has_left_child(self):
+        return self.left_child is not None and self.left_child.value is not None
+
+    def has_right_child(self):
+        return self.right_child is not None and self.right_child.value is not None
